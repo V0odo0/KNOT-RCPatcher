@@ -1,0 +1,16 @@
+{
+  "name": "com.knot.rcpatcher",
+  "version": "0.1.0",
+  "author": "V0odo0",
+  "displayName": "RC Patcher",
+  "unity": "2021.3",
+  "description": "Windows Resource Compiler (RC) VERSIONINFO auto-patcher for Unity",
+  "keywords": [
+    "Project",
+    "Configuration"
+	],
+  "dependencies": {
+	"com.knot.core": "1.0.5"
+  },
+  "category": "Tools"
+}
