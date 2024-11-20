@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Knot.Core.Editor;
 using UnityEditor;
-using UnityEditor.Compilation;
-using UnityEngine;
 
 namespace Knot.RCPatcher.Editor
 {
@@ -11,6 +7,7 @@ namespace Knot.RCPatcher.Editor
     internal class KnotRcPatcherProjectSettingsEditor : ProjectSettingsEditor<KnotRcPatcherProjectSettings>
     {
         internal static string SettingsPath = $"Project/KNOT/RC Patcher";
+
 
         [SettingsProvider]
         static SettingsProvider GetSettingsProvider()
@@ -21,26 +18,21 @@ namespace Knot.RCPatcher.Editor
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
-            return;
-
             serializedObject.Update();
+            
+            EditorGUIUtility.labelWidth = 220;
+            
+            EditorGUILayout.PropertyField(serializedObject.FindBackingFieldProperty(nameof(Target.PatchOnBuildPostProcess)));
+            if (Target.PatchOnBuildPostProcess)
+            {
+                EditorGUI.indentLevel++;
 
-            var customSettings = serializedObject.FindProperty("_customProfile");
-            EditorGUILayout.PropertyField(customSettings);
+                EditorGUILayout.PropertyField(serializedObject.FindBackingFieldProperty(nameof(Target.BuildPostProcessCallbackOrder)));
+                EditorGUILayout.PropertyField(serializedObject.FindBackingFieldProperty(nameof(Target.BuildPostProcessors)));
+                
+                EditorGUI.indentLevel--;
+            }
             serializedObject.ApplyModifiedProperties();
-
-            EditorGUILayout.Space(10);
-
-            if (customSettings.objectReferenceValue == null)
-                base.OnInspectorGUI();
-        }
-
-        [MenuItem("Tools/Foo")]
-        public static void Foo()
-        {
-            var pa = CompilationPipeline.GetAssemblyDefinitionFilePathFromAssemblyName("Knot.RCPatcher.Editor");
-            Debug.Log(pa);
         }
     }
 }
