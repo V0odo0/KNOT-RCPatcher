@@ -1,5 +1,7 @@
 Resource Compiler (RC) VERSIONINFO auto-patcher for Unity made with [rcedit](https://github.com/electron/rcedit) (Windows).
 
+<img src="https://github.com/user-attachments/assets/9bd48aaa-3faa-4c7a-9b69-271c84e76ee3" width="700">
+
 ## Installation
 
 Open `Project Settings/Package Manager` and add new scoped registry:
@@ -34,4 +36,42 @@ sb.Replace("<CompanyName>", Application.companyName);
 sb.Replace("<BuildGuid>", Application.buildGUID);
 sb.Replace("<ProductName>", Application.productName);
 sb.Replace("<CurrentYear>", DateTime.UtcNow.Year.ToString());
+```
+
+## Extending RC Patcher
+
+Make your own patcher
+
+```C#
+[Serializable]
+public class MyPatcher : IKnotRcPatcher
+{
+    public IEnumerable<string> GetTargetFileExtensions()
+    {
+        return new[] { "exe" };
+    }
+
+    public Task<KnotRcPatcherResult> Patch(IEnumerable<string> filePaths, IEnumerable<KeyValuePair<string, string>> properties, CancellationToken cancellationToken = default)
+    {
+        //Do my stuff
+
+        return Task.FromResult(new KnotRcPatcherResult
+        {
+            FilesPatched = filePaths.ToList()
+        });
+    }
+}
+```
+
+Make your own property provider
+
+```C#
+[Serializable]
+public class MyPropertyProvider : IKnotRcPatcherPropertyProvider
+{
+    public IEnumerable<KeyValuePair<string, string>> GetProperties()
+    {
+        return new[] { new KeyValuePair<string, string>("MyKey", "MyValue") };
+    }
+}
 ```
