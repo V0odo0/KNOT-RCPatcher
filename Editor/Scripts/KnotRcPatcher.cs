@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Knot.Core;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEngine;
 
 namespace Knot.RCPatcher.Editor
 {
@@ -24,7 +26,7 @@ namespace Knot.RCPatcher.Editor
             if (!ProjectSettings.PatchOnBuildPostProcess)
                 return;
 
-            if (report.summary.result == BuildResult.Failed || report.summary.result == BuildResult.Cancelled)
+            if (report.summary.result is BuildResult.Failed or BuildResult.Cancelled)
                 return;
 
             foreach (var profile in ProjectSettings.BuildPostProcessors)
@@ -47,7 +49,20 @@ namespace Knot.RCPatcher.Editor
 
                 var resultTask = profile.PatcherProfile.Patcher.Patch(targetFiles,
                     profile.PatcherProfile.PropertyProvider.GetProperties());
-                resultTask.RunSynchronously();
+
+                if (resultTask.IsCanceled)
+                    Debug.LogWarning($"{CoreName}: Patching was cancelled");
+                else if (!resultTask.Result.FilesPatched.Any())
+                    Debug.Log($"{CoreName}: No files patched");
+                else
+                {
+                    StringBuilder reportSb = new StringBuilder();
+                    reportSb.AppendLine($"{CoreName}: Patched files:");
+                    foreach (var patchedFile in resultTask.Result.FilesPatched)
+                        reportSb.AppendLine(patchedFile);
+
+                    Debug.Log(reportSb);
+                }
             }
         }
     }
