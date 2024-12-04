@@ -16,7 +16,7 @@ namespace Knot.RCPatcher.Editor
         internal const string CorePath = "KNOT/" + CoreName + "/";
 
         public static KnotRcPatcherProjectSettings ProjectSettings =>
-            _projectSettings == null ? _projectSettings = Utils.GetProjectSettings<KnotRcPatcherProjectSettings>() : _projectSettings;
+            _projectSettings == null ? _projectSettings = Utils.GetProjectSettings<KnotRcPatcherProjectSettings>(false) : _projectSettings;
         private static KnotRcPatcherProjectSettings _projectSettings;
 
         public int callbackOrder => ProjectSettings.BuildPostProcessCallbackOrder;

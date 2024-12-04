@@ -1,6 +1,6 @@
 {
   "name": "com.knot.rcpatcher",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "author": "V0odo0",
   "displayName": "KNOT RC Patcher",
   "unity": "2021.3",
@@ -10,7 +10,7 @@
     "Configuration"
 	],
   "dependencies": {
-	"com.knot.core": "1.0.6"
+	"com.knot.core": "1.0.7"
   },
   "category": "Tools",
   "documentationUrl": "https://github.com/V0odo0/KNOT-RCPatcher"
