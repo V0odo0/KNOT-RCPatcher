@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Knot.Core;
@@ -43,6 +44,9 @@ namespace Knot.RCPatcher.Editor
                 var targetFiles = new List<string>();
                 foreach (var reportFile in report.files)
                 {
+                    if (!File.Exists(reportFile.path))
+                        continue;
+
                     if (profile.TargetFiles.Any(s => reportFile.path.EndsWith(s, StringComparison.CurrentCultureIgnoreCase)))
                         targetFiles.Add(reportFile.path);
                 }
