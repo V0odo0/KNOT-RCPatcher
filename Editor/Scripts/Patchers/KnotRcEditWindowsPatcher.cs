@@ -50,7 +50,7 @@ namespace Knot.RCPatcher.Editor
 
                     var fileInfo = new FileInfo(filePath);
                     startInfo.WorkingDirectory = fileInfo.DirectoryName;
-                    startInfo.Arguments = $"{fileInfo.Name} {propertiesSb}";
+                    startInfo.Arguments = $"\"{fileInfo.Name}\" {propertiesSb}";
                     startInfo.RedirectStandardOutput = true;
                     startInfo.RedirectStandardError = true;
                     startInfo.CreateNoWindow = true;

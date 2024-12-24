@@ -37,7 +37,7 @@ namespace Knot.RCPatcher.Editor
                     if (fileInfo.Exists && !fileInfo.IsReadOnly)
                     {
                         var result = _target.Patcher.Patch(new[] { fileInfo.FullName }, _target.PropertyProvider!.GetProperties());
-                        Debug.Log(result);
+                        Debug.Log(result.Result);
                     }
                 }
                 
